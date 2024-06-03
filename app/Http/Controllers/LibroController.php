@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Libro;
+use App\Models\Autore;
+use App\Models\Editore;
+use App\Models\Categoria;
 
 class LibroController extends Controller
 {
@@ -11,15 +14,20 @@ class LibroController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
+        $autori = Autore::all();
+        $editori = Editore::all();
+        $categorie = Categoria::all();
         $libri = Libro::all();
-        return view('libri.index', compact('libri'));
+        return view('libri.index', compact('libri', 'autori', 'editori', 'categorie'));
     }
 
     public function index_admin()
     {
+        $autori = Autore::all();
+        $editori = Editore::all();
         $libri = Libro::all();
-        return view('admin.libri.index', compact('libri'));
+        return view('admin.libri.index', compact('libri', 'autori', 'editori'));
     }
 
 
@@ -29,7 +37,10 @@ class LibroController extends Controller
      */
     public function create()
     {
-        return view('admin.libri.create');
+        $autori = Autore::all();
+        $editori = Editore::all();
+        $categorie = Categoria::all();
+        return view('admin.libri.create', compact('categorie', 'autori', 'editori'));
     }
 
     /**
@@ -39,6 +50,17 @@ class LibroController extends Controller
     {
     //    dd($request);
         // validazione
+        // dd($request->category);
+        $request->validate([
+            'titolo' => 'required|string|min:3|max:255',
+            'autore_id' => 'required',
+            'editore_id' => 'required',
+            'isbn' => 'required|string|max:20',
+            'anno' => 'required|integer|min:1970|max:'.date('Y'),
+            'lingua' => 'required|string|max:2',
+            'prezzo' => 'required|numeric'
+        ]);
+
         $libro = new Libro;
         $libro->titolo = $request->titolo;
         $libro->autore_id = $request->autore_id;
@@ -49,7 +71,9 @@ class LibroController extends Controller
         $libro->prezzo = $request->prezzo;
 
         $libro->save(); 
+        //aggiungiamo le categorie
 
+        $libro->category()->attach($request->category);
         return redirect()->route('admin.libri.index');
     }
 
@@ -67,7 +91,8 @@ class LibroController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $libro = Libro::find($id);
+        return view('admin.libri.edit', compact('libro'));
     }
 
     /**
@@ -75,7 +100,20 @@ class LibroController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'titolo' => 'required|string|min:3|max:255',
+            'autore_id' => 'required',
+            'editore_id' => 'required',
+            'isbn' => 'required|string|max:20',
+            'anno' => 'required|integer|min:1970|max:'.date('Y'),
+            'lingua' => 'required|string|max:2',
+            'prezzo' => 'required|numeric'
+        ]);
+
+        $libro = Libro::find($id);
+        $libro->update($request->all());
+
+        return redirect()->route('admin.libri.index');
     }
 
     /**

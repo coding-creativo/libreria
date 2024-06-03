@@ -14,7 +14,7 @@ use App\Http\Controllers\LibroController;
 |
 */
 
-Route::get('/homepage', function () {
+Route::get('/', function () {
     return view('home');
 })->name('homepage');
 
@@ -29,6 +29,8 @@ Route::get('/libri/{libro}', [LibroController::class,'show'])->name('libri.show'
 Route::get('/admin/lista-libri', [LibroController::class, 'index_admin'])->name('admin.libri.index');
 Route::get('/admin/create-libro', [LibroController::class, 'create'])->name('admin.libri.create');
 Route::post('/admin/libri', [LibroController::class, 'store'])->name('admin.libri.store');
+Route::get('/admin/modifica-libro/{libro}', [LibroController::class, 'edit'])->name('admin.libri.edit');
+Route::put('/admin/libri/{libro}', [LibroController::class, 'update'])->name('admin.libri.update');
 
 
 

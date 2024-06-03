@@ -22,4 +22,17 @@ class Libro extends Model
 
     public $timestamps = false;
 
+    public function autore(){
+        return $this->belongsTo(Autore::class);
+    }
+
+    public function editore(){
+        return $this->belongsTo(Editore::class);
+    }
+
+    public function category() {
+        return $this->belongsToMany(Categoria::class, 'libri_categorie');
+    }
+
+
 }

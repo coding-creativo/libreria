@@ -19,10 +19,10 @@
       @foreach($libri as $libro)
       <tr>
         <th scope="row"> {{ $libro->titolo }} </th>
-        <td>{{ $libro->autore_id }}</td>
+        <td>{{ $libro->autore->nome }} {{ $libro->autore->cognome }}</td>
         <td>{{ $libro->prezzo }}</td>
         <td>
-          <a href="">Modica</a>
+          <a href="{{ route('admin.libri.edit', $libro->id) }} ">Modica</a>
           <form action="">
             <input type="submit" value="Cancella">
           </form>
