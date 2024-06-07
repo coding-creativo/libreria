@@ -14,7 +14,7 @@
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
     <form action="{{ route('admin.libri.store') }}" method="POST">
         @method('POST')
         @csrf
@@ -22,14 +22,14 @@
           <label for="titolo" class="form-label">Titolo</label>
           <input type="text" class="form-control" id="titolo" name="titolo" required>
           @error('titolo')
-    <div class="alert alert-danger">{{ $message }}</div>
-@enderror
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         </div>
         <div class="mb-3">
             <label for="autore_id" class="form-label">Autore</label>
             <select name="autore_id" id="autore_id" class="form-control">
                 @foreach($autori as $autore)
-                <option value="{{ $autore->id}}">{{ $autore->nome}} {{ $autore->cognome}}</option>
+                    <option value="{{ $autore->id}}">{{ $autore->nome}} {{ $autore->cognome}}</option>
                 @endforeach
             </select>
 

@@ -32,5 +32,7 @@ Route::post('/admin/libri', [LibroController::class, 'store'])->name('admin.libr
 Route::get('/admin/modifica-libro/{libro}', [LibroController::class, 'edit'])->name('admin.libri.edit');
 Route::put('/admin/libri/{libro}', [LibroController::class, 'update'])->name('admin.libri.update');
 
+Route::delete('/admin/libri/{libro}', [LibroController::class, 'destroy'])->name('admin.libri.destroy');
+
 
 
